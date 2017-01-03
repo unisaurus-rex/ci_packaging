@@ -10,7 +10,7 @@ var _ = require("lodash");
  * @author Jeff Flower
  */
 module.exports = function parseCsvs(dir) {
-  return function parseCsvsCb (callback) {
+  return function parseCsvsCb(callback) {
     var files = fse.readdirSync(dir);
 
     files = _.filter(files, function (file) {
@@ -23,8 +23,8 @@ module.exports = function parseCsvs(dir) {
     });
 
     console.log("\nRead in the following .csv files-> " + files);
-    callback();
-    return;
+
+    return callback();
   }
 };
 
@@ -35,7 +35,7 @@ function parseCsv(dir, file) {
 
   var output = {};
 
-  parser.on('readable', function () {
+  parser.on('readable', function readableCb () {
     var record;
     while (record = parser.read()) {
       addToOutput(record);
@@ -43,9 +43,10 @@ function parseCsv(dir, file) {
   });
 
   // write new .js file to hold the originally .csv content parsed into .json format
-  parser.on('finish', function () {
+  parser.on('finish', function finishCb () {
     var data = "export const dataJSON = \'" + JSON.stringify(output) + "\';";
-    fse.writeFile(dir + "/" + file + ".js", data);
+
+    fse.writeFileSync(dir + "/" + file + ".js", data);
   });
 
   fse.createReadStream(dir + "/" + file).pipe(parser);
