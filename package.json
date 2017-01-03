@@ -1,0 +1,11 @@
+{
+  "name": "card_holder_insights_packaging",
+  "version": "0.0.1",
+  "dependencies": {
+    "async": "^2.1.4",
+    "csv": "^1.1.0",
+    "easy-zip": "0.0.4",
+    "fs-extra": "^1.0.0",
+    "lodash": "^4.17.3"
+  }
+}
