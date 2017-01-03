@@ -22,13 +22,11 @@ function exists(dir) {
     var validDir = fse.existsSync(dir);
 
     if (!validDir) {  // the given directory does not exist as either a file OR a directory
-      callback("\nThe given directory \"" + dir + "\" does not exist." +
+      return callback("\nThe given directory \"" + dir + "\" does not exist." +
         " Please provide a valid directory.");
-      return;
     }
 
-    callback(); // is a directory OR a file
-    return;
+    return callback(); // is a directory OR a file
   }
 }
 
@@ -44,44 +42,14 @@ function isDirectory(dir) {
   return function isDirectoryCb(callback) {
     fse.stat(dir, function (err, stats) {
       if (err) {  // some error occurred
-        callback("\nAn error occurred accessing directory " + dir + ".");
-        return;
+        return callback("\nAn error occurred accessing directory " + dir + ".");
       }
 
       if (!stats.isDirectory()) { // not a directory, also an error
-        callback("\n\"" + dir + "\" must be a directory.");
-        return;
+        return callback("\n\"" + dir + "\" must be a directory.");
       }
 
-      callback(); // no error, all is assumed good at this point
-      return;
+      return  callback(); // no error, all is assumed good at this point
     });
   }
 }
-
-/**
- * existsIsDir
- *
- * Checks for existence AND is a directory of given directories
- *
- * @param directories
- * @returns {Function}
- */
-//function existsIsDir(directories) {
-//  return function existsIsDirCb(callback) {
-//  _.forEach(directories, function (directory) {
-//    async.series([
-//      exists(directory),
-//      isDirectory(directory)
-//    ], function (err, results) {
-//      if (err) {
-//        //console.error("An error occurred." + err);
-//        //process.exit(1);
-//        callback(err);
-//      }
-//
-//      callback();
-//    });
-//  });
-//  }
-//}
