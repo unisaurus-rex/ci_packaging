@@ -4,18 +4,14 @@ var fse = require("fs-extra");
 var async = require("async");
 
 //internal dependencies
-var directoryManip = require("./directory_manipulation");
-var zipDir = directoryManip.zipDir;
+var directoryManip = require("./lib/directory_manipulation");
 var parseCsvs = directoryManip.parseCsvs;
 var dirCheck = directoryManip.dirCheck;
 
-var lib = require("./lib");
+var lib = require("./lib/messages");
 var messages = lib.messages;
 
-var build = require("./build");
-
-// move to appropriate place and adjust paths accordingly
-//zipDir("../ci-interim-develop","../ci-interim-develop.7z");
+var build = require("./lib/build");
 
 // csv and project directory comes in as follows "node app.js <csv-dir> <project-dir>"
 var csvDir = process.argv[2]; // Directory containing the .csv files
@@ -52,8 +48,8 @@ async.series([
   build.run("../ci-interim-develop/src"),  // currently cannot install jspm globally
 
   // zip & store & remove build folder
-  zipDir("../ci-interim-develop/build", "C:/Users/U999716/Desktop/ci-interim.zip")
-
+  //zipDir("../ci-interim-develop/build", "C:/Users/U999716/Desktop/ci-interim.zip")
+  build.pkg("C:/Users/U999716/Desktop/ci-interim.zip", "../ci-interim-develop/build")
 ], function appJsCb (err, results) {  // if any of the previous functions fails should end up in the following cb with err
   if (err) {
     console.error("An error occurred. " + err);
