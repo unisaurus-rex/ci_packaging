@@ -1,5 +1,6 @@
 "use strict";
 
 module.exports = {
-  putJsonJsFilesProjectSrcDir: require("./putJsonJsFilesProjectSrcDir")
+  putJsonJsFileProjectSrcDir: require("./putJsonJsFileProjectSrcDir"),
+  run: require("./run")
 };
