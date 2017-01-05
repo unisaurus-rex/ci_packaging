@@ -7,9 +7,14 @@ var EasyZip = require("easy-zip").EasyZip;
  * @param sourceDirectory
  * @param targetDirectory
  */
-module.exports = function zipDir (sourceDirectory, targetDirectory) {
-  var zip = new EasyZip();
-  zip.zipFolder(sourceDirectory, function () {
-    zip.writeToFile(targetDirectory);
-  });
-};
+module.exports = zipDir;
+
+function zipDir(sourceDirectory, targetDirectory) {
+  return function _zipDir(callback) {
+    var zip = new EasyZip();
+    zip.zipFolder(sourceDirectory, function () {
+      zip.writeToFile(targetDirectory);
+      return callback();
+    });
+  };
+}
