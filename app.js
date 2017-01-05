@@ -15,7 +15,7 @@ var messages = lib.messages;
 var build = require("./build");
 
 // move to appropriate place and adjust paths accordingly
-//zipDir("../example-front-end-shell-app","../example-front-end-shell-app.7z");
+//zipDir("../ci-interim-develop","../ci-interim-develop.7z");
 
 // csv and project directory comes in as follows "node app.js <csv-dir> <project-dir>"
 var csvDir = process.argv[2]; // Directory containing the .csv files
@@ -31,24 +31,35 @@ if (typeof projectDir === "undefined") { // no argument was passed for projectDi
   process.exit(1);
 }
 
+// TODO - need to iterate over .csvs, may need to have a nested async that calls the build.<all> and zip functions
+// Use async series to ensure that each function waits for the previous to complete before resuming
 async.series([
-  // Check both directories for existence AND isDirectory
+  // Check both directories for existence AND isDirectory, could probably just check isDirectory but ... yeah
   dirCheck.exists(csvDir),
   dirCheck.exists(projectDir),
   dirCheck.isDirectory(csvDir),
   dirCheck.isDirectory(projectDir),
 
-  parseCsvs("../example-front-end-shell-app/resources/csvs"),  // parse each csv file in given directory to a .js file
+  // TODO remove these hardcoded values
+  parseCsvs("../csvs"),  // parse each csv file in given directory to a .js file
 
-  build.putJsonJsFilesProjectSrcDir("../example-front-end-shell-app/resources/csvs", "../example-front-end-shell-app/src"),   // place each .js file into the project/src folder
+  // TODO remove these hardcoded values
+  build.putJsonJsFileProjectSrcDir("../csvs/ci_demo.csv.js", "../ci-interim-develop/src"),   // place each .js file into the project/src folder
 
+  // make build folder & copy index.html to build folder
 
-], function (err, results) {
-  if(err){
+  // call npm build funcs
+  build.run("../ci-interim-develop/src"),  // currently cannot install jspm globally
+
+  // zip & store & remove build folder
+  zipDir("../ci-interim-develop/build", "C:/Users/U999716/Desktop/ci-interim.zip")
+
+], function appJsCb (err, results) {  // if any of the previous functions fails should end up in the following cb with err
+  if (err) {
     console.error("An error occurred. " + err);
     process.exit(1);
   }
-
-  console.log("\nAll done!");
 });
+
+//console.log("\nAll done!");
 
