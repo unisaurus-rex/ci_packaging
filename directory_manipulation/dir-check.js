@@ -4,10 +4,15 @@ var fse = require("fs-extra");
 var async = require("async");
 var _ = require("lodash");
 
+/**
+ * dir-check
+ *
+ * Provides functions to check certain conditions on a directory, and handle errors appropriately
+ * @type {{exists: exists, isDirectory: isDirectory}}
+ */
 module.exports = {
   exists: exists,
-  isDirectory: isDirectory/*,
-  existsIsDir: existsIsDir*/
+  isDirectory: isDirectory
 };
 
 /**
@@ -18,10 +23,10 @@ module.exports = {
  * @returns {Function} with an optional callback parameter for async
  */
 function exists(dir) {
-  return function existsCb(callback) {
-    var validDir = fse.existsSync(dir);
+  return function _exists(callback) {
+    var exists = fse.existsSync(dir);
 
-    if (!validDir) {  // the given directory does not exist as either a file OR a directory
+    if (!exists) {  // the given directory does not exist as either a file OR a directory
       return callback("\nThe given directory \"" + dir + "\" does not exist." +
         " Please provide a valid directory.");
     }
@@ -36,10 +41,10 @@ function exists(dir) {
  * Uses fse.stat to determine if the given item is in fact a directory
  *
  * @param dir
- * @returns {Function}
+ * @returns {Function} with an optional callback parameter for async
  */
 function isDirectory(dir) {
-  return function isDirectoryCb(callback) {
+  return function _isDirectory(callback) {
     fse.stat(dir, function (err, stats) {
       if (err) {  // some error occurred
         return callback("\nAn error occurred accessing directory " + dir + ".");
@@ -49,7 +54,7 @@ function isDirectory(dir) {
         return callback("\n\"" + dir + "\" must be a directory.");
       }
 
-      return  callback(); // no error, all is assumed good at this point
+      return callback(); // no error, all is assumed good at this point
     });
   }
 }
