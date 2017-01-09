@@ -22,3 +22,14 @@ Where:
 Some presumptions:
 * ci-interim/build directory is already created 
 * ci-interim/build contains the modified index.html (development code is commented out, and build version code is uncommented)
+
+# Installation
+
+Prerequisite technologies
+* Node.js - https://nodejs.org/en/download/current/
+* 7zip - http://www.7-zip.org/download.html
+
+From the ci_packaging root directory run
+```sh
+$ npm install
+```
