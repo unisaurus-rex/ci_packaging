@@ -29,8 +29,6 @@ if (!utility.argsExist([csvDir, projectDir, targetDir, targetName])) {
   process.exit(1);
 }
 
-var times = 0;
-// TODO - need to iterate over .csvs, may need to have a nested async that calls the build.<all> and zip functions
 // Use async series to ensure that each function waits for the previous to complete before resuming
 async.series([
   // Check both directories for existence AND isDirectory, could probably just check isDirectory but ... yeah
@@ -60,8 +58,6 @@ async.series([
   build.pkg(targetDir, targetName, path.join(projectDir, "/build"))
 /**************** End of content to be moved to iteration ***********************/
 ], function appJsCb(err, results) {  // if any of the previous functions fails should end up in the following cb with err
-  ++times;
-
   if (err) {
     console.error("An error occurred. " + err);
     process.exit(1);
