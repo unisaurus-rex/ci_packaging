@@ -1,5 +1,6 @@
 {
-  "name": "cardholderInsightsPackage",
+  "name": "vantivCardholderInsights",
+  "productName": "Vantiv Cardholder Insights",
   "version": "0.0.1",
   "main": "app/main.js",
   "author": "Vantiv LLC.",
@@ -9,14 +10,14 @@
     "dist": "build"
   },
   "dependencies": {
-    "async": "^2.1.4",
-    "child_process": "^1.0.2",
-    "csv-parse": "^1.1.7",
+    "async": "2.1.4",
+    "child_process": "1.0.2",
+    "csv-parse": "1.1.7",
     "easy-zip": "0.0.4",
-    "fs-extra": "^1.0.0",
-    "lodash": "^4.17.3",
-    "npm-run": "^4.1.0",
-    "path": "^0.12.7"
+    "fs-extra": "1.0.0",
+    "lodash": "4.17.3",
+    "npm-run": "4.1.0",
+    "path": "0.12.7"
   },
   "build": {
     "appId": "Vantiv Cardholder Insights",
@@ -26,6 +27,6 @@
     }
   },
   "devDependencies": {
-    "electron": "^1.4.14"
+    "electron": "1.4.14"
   }
 }
