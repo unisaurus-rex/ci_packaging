@@ -47,7 +47,7 @@ async.series([
  * Requires us to be able to distinguish the output zip files. Once possible will move to a loop to iterate over csv.js files and package with distinct zip name
  */
   // TODO remove hardcoded .js filename
-  build.putJsonJsFileProjectSrcDir(path.join(csvDir, "/ci_demo.csv.js"), path.join(projectDir, "/src/scripts")),   // place each .js file into the project/src folder
+  build.copy(path.join(csvDir, "/ci_demo.csv.js"), path.join(projectDir, "/src/scripts")),   // place each .js file into the project/src folder
 
   // TODO  do we want to remake build folder & copy index.html to build folder each time????
 
