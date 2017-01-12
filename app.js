@@ -47,15 +47,21 @@ async.series([
  * Requires us to be able to distinguish the output zip files. Once possible will move to a loop to iterate over csv.js files and package with distinct zip name
  */
   // TODO remove hardcoded .js filename
-  build.copy(path.join(csvDir, "/ci_demo.csv.js"), path.join(projectDir, "/src/scripts")),   // place each .js file into the project/src folder
+  build.copy(path.join(csvDir, "/ci_demo.csv.js"), path.join(projectDir, "/src/scripts/data.js")),   // copy each .js file to project/src/srcipts/data.js folder
 
   // TODO  do we want to remake build folder & copy index.html to build folder each time????
 
   // call npm build scripts
   build.run(path.join(projectDir, "/src")),
 
+  // copy ci-interim/build contents to ./app
+  build.copy(path.join(projectDir, "/build"), path.join(__dirname, "/app")),
+
+  // build the executable using electron
+  build.electronPkg(__dirname),
+
   // zip & store
-  build.pkg(targetDir, targetName, path.join(projectDir, "/build"))
+  build.zipPkg(targetDir, targetName, path.join(__dirname, "/dist/*.exe"))
 /**************** End of content to be moved to iteration ***********************/
 ], function appJsCb(err, results) {  // if any of the previous functions fails should end up in the following cb with err
   if (err) {
