@@ -41,9 +41,9 @@ $ npm install
 ```
 
 # Resources
-> [Electron Github repo](https://github.com/electron/electron)
-> [Electron website](http://electron.atom.io/)
-> [Vantiv Cardholder Insights (ci-interim) Github private repo](https://github.com/unisaurus-rex/ci-interim)
-> [Vantiv Cardholder Insights demo site](https://unisaurus-rex.github.io/ci-interim/demo/)
+* [Electron Github repo](https://github.com/electron/electron)
+* [Electron website](http://electron.atom.io/)
+* [Vantiv Cardholder Insights (ci-interim) Github private repo](https://github.com/unisaurus-rex/ci-interim)
+* [Vantiv Cardholder Insights demo site](https://unisaurus-rex.github.io/ci-interim/demo/)
 
 Created using [Dillinger.io](http://dillinger.io/)
