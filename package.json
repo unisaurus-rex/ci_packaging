@@ -1,6 +1,13 @@
 {
-  "name": "card_holder_insights_packaging",
+  "name": "cardholderInsightsPackage",
   "version": "0.0.1",
+  "main": "app/main.js",
+  "author": "Vantiv LLC.",
+  "description": "Vantiv Cardholder Insights",
+  "scripts": {
+    "electron": "electron app/",
+    "dist": "build"
+  },
   "dependencies": {
     "async": "^2.1.4",
     "child_process": "^1.0.2",
@@ -10,5 +17,15 @@
     "lodash": "^4.17.3",
     "npm-run": "^4.1.0",
     "path": "^0.12.7"
+  },
+  "build": {
+    "appId": "Vantiv Cardholder Insights",
+    "win": {
+      "iconUrl": "",
+      "app": "build"
+    }
+  },
+  "devDependencies": {
+    "electron": "^1.4.14"
   }
 }
