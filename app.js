@@ -24,7 +24,7 @@ var targetName = process.argv[5]; // Name of output zip file
 
 /****************** Command-line arguments check for existence *******************************/
 var configFile = "";
-if (csvDir.toString().startsWith("-c")) { // first argument is not a csv directory but a config file
+if (typeof csvDir !== "undefined" && csvDir.toString().startsWith("-c")) { // first argument is not a csv directory but a config file
   configFile = csvDir.toString().slice(2);
   console.log(configFile);
 
@@ -39,7 +39,6 @@ if (csvDir.toString().startsWith("-c")) { // first argument is not a csv directo
   projectDir = config.projectDir;
   targetDir = config.targetDir;
   targetName = config.targetName;
-
 }
 
 if (!utility.argsExist([csvDir, projectDir, targetDir, targetName])) {
