@@ -26,6 +26,15 @@ Where:
 * [targetname] is the name for the target zip, which will in the future be pulled from the incoming csv data
 * [configjson] is the path to the config.json file containing [csvdirectory], [projectdirectory], [targetdirectory], [targetname]
 
+Config.json example:
+```json
+{
+  "csvDir": "path/to/csv/directory",
+  "projectDir": "path/to/project/directory",
+  "targetDir": "path/to/output/zip/directory",
+  "targetName": "output/zip/name.zip"
+}
+```
 > One nice to have would be to provide a config file instead of using 
 > command-line arguments as this can become tedious. **[update 1/16/2017] Now supports use of a config file.**
 
