@@ -8,26 +8,33 @@ ci_packaging is intending for use with the ci-interim project. It runs the npm c
 > the point when we can pull a name from the data file, we can 
 > repeat the build process for each unique data set and target user.
 
-Run as follows:
+For completely command-line driven execution, run as follows:
 ```sh
-$ node ci_packaging\app.js [csv-directory] [project-directory] [target-directory] [target-name]
+$ node ci_packaging\app.js [csvdirectory] [projectdirectory] [targetdirectory] [targetname]
 ```
 
+For a config driven exectution, run as follows:
+```sh
+$ node ci_packaging\app.js -c[configjson] 
+```
+_Do note there is **no** space between the flag '-c' and the [configjson] argument._
+
 Where:
-* [csv-directory] contains .csv files
-* [project-directory] is the path to the front-end application project directory (ci-interim)
-* [target-directory] is the directory path to output zip files
-* [target-name] is the name for the target zip, which will in the future be pulled from the incoming csv data
+* [csvdirectory] is the path to the directory containing source .csv files
+* [projectdirectory] is the path to the front-end application project directory (ci-interim)
+* [targetdirectory] is the directory path to output zip files
+* [targetname] is the name for the target zip, which will in the future be pulled from the incoming csv data
+* [configjson] is the path to the config.json file containing [csvdirectory], [projectdirectory], [targetdirectory], [targetname]
 
 > One nice to have would be to provide a config file instead of using 
-> command-line arguments as this can become tedious.
+> command-line arguments as this can become tedious. **[update 1/16/2017] Now supports use of a config file.**
 
 Some presumptions:
-* [project-directory]/build directory is already created, it will **NOT** be created by the ci_packaging script
+* [projectdirectory]/build directory is already created, it will **NOT** be created by the ci_packaging script
 * /app contains the modified index.html (development code is commented out, and build version code is uncommented)
 * /app contains the main.js file expected by Electron for executable creation
 * /app contains the rendering.js file expected by Electron for executable creation
-* Parsed csv.js file is to be placed in [project-directory]/src/scripts as _"data.js"_
+* Parsed csv.js file is to be placed in [projectdirectory]/src/scripts as _"data.js"_
 
 # Installation
 
