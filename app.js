@@ -19,8 +19,6 @@ const utility = require("./lib/util");
 let csvDir = process.argv[2]; // Directory containing the .csv files
 let projectDir = process.argv[3]; // Directory containing front-end project, html, js, css files
 let targetDir = process.argv[4];  // Directory to output zip files
-// TODO should probably be getting name of zip from fi name, but need to first get fi name
-let targetName = process.argv[5]; // Name of output zip file
 
 /****************** Command-line arguments check for existence *******************************/
 let configFile = "";
@@ -28,9 +26,13 @@ if (typeof csvDir !== "undefined" && csvDir.toString().startsWith("-c")) { // fi
   configFile = csvDir.toString().slice(2);
   console.log(configFile);
 
-  if (!fse.existsSync(configFile)) {  // check for file existence
-    console.error("Could not load config file \"" + configFile + "\".");
-    process.exit(1);
+  try {
+    if (!fse.existsSync(configFile)) {  // check for file existence
+      console.error("Could not load config file \"" + configFile + "\".");
+      process.exit(1);
+    }
+  } catch(e) {
+    console.log(e);
   }
 
   const config = require(configFile);
@@ -38,10 +40,9 @@ if (typeof csvDir !== "undefined" && csvDir.toString().startsWith("-c")) { // fi
   csvDir = config.csvDir;
   projectDir = config.projectDir;
   targetDir = config.targetDir;
-  targetName = config.targetName;
 }
 
-if (!utility.argsExist([csvDir, projectDir, targetDir, targetName])) {
+if (!utility.argsExist([csvDir, projectDir, targetDir])) {
   messages.usage();
 
   process.exit(1);
