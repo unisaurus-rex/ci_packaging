@@ -5,35 +5,35 @@ const async = require("async");
 const path = require("path");
 
 //internal dependencies
-var directoryManip = require("./lib/directory_manipulation");
-var parseCsvs = directoryManip.parseCsvs;
-var dirCheck = directoryManip.dirCheck;
+const directoryManip = require("./lib/directory_manipulation");
+const parseCsvs = directoryManip.parseCsvs;
+const dirCheck = directoryManip.dirCheck;
 
-var messages = require("./lib/messages");
+const messages = require("./lib/messages");
 
-var build = require("./lib/build");
+const build = require("./lib/build");
 
-var utility = require("./lib/util");
+const utility = require("./lib/util");
 
 // csv and project directory comes in as follows "node app.js <csv-dir> <project-dir>"
-var csvDir = process.argv[2]; // Directory containing the .csv files
-var projectDir = process.argv[3]; // Directory containing front-end project, html, js, css files
-var targetDir = process.argv[4];  // Directory to output zip files
+let csvDir = process.argv[2]; // Directory containing the .csv files
+let projectDir = process.argv[3]; // Directory containing front-end project, html, js, css files
+let targetDir = process.argv[4];  // Directory to output zip files
 // TODO should probably be getting name of zip from fi name, but need to first get fi name
-var targetName = process.argv[5]; // Name of output zip file
+let targetName = process.argv[5]; // Name of output zip file
 
 /****************** Command-line arguments check for existence *******************************/
-var configFile = "";
+let configFile = "";
 if (typeof csvDir !== "undefined" && csvDir.toString().startsWith("-c")) { // first argument is not a csv directory but a config file
   configFile = csvDir.toString().slice(2);
   console.log(configFile);
 
-  if(!fse.existsSync(configFile)){  // check for file existence
+  if (!fse.existsSync(configFile)) {  // check for file existence
     console.error("Could not load config file \"" + configFile + "\".");
     process.exit(1);
   }
 
-  var config = require(configFile);
+  const config = require(configFile);
 
   csvDir = config.csvDir;
   projectDir = config.projectDir;
@@ -60,27 +60,9 @@ async.series([
   // parse each csv file in given directory to a .js file
   parseCsvs(csvDir),
 
-/***************************TODO: Should be done in an iteration for each csv.js file****************/
-/**
- * Requires us to be able to distinguish the output zip files. Once possible will move to a loop to iterate over csv.js files and package with distinct zip name
- */
-  // TODO remove hardcoded .js filename
-  build.copy(path.join(csvDir, "/ci_demo.csv.js"), path.join(projectDir, "/src/scripts/data.js")),   // copy each .js file to project/src/srcipts/data.js folder
+  // build css, sass, js files for each unique csv.js file, and zip the result with the corresponding.csv.js file name
+  build.buildPkgAllCsvs(__dirname, projectDir, csvDir, targetDir),
 
-  // TODO  do we want to remake build folder & copy index.html to build folder each time????
-
-  // call npm build scripts
-  build.run(path.join(projectDir, "/src")),
-
-  // copy ci-interim/build contents to ./app
-  build.copy(path.join(projectDir, "/build"), path.join(__dirname, "/app")),
-
-  // build the executable using electron
-  build.electronPkg(__dirname),
-
-  // zip & store
-  build.zipPkg(targetDir, targetName, path.join(__dirname, "/dist/*.exe"))
-/**************** End of content to be moved to iteration ***********************/
 ], function appJsCb(err, results) {  // if any of the previous functions fails should end up in the following cb with err
   if (err) {
     console.error("An error occurred. " + err);
